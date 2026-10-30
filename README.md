@@ -1,0 +1,143 @@
+# Commonality in Liquidity on Indian Equity Data
+
+## Overview
+
+This repository presents an empirical study of commonality in equity-market liquidity on the National Stock Exchange of India (NSE) over 2015–2024. The analysis is organised as a replication, econometric modernisation, and extension of the commonality-in-liquidity framework of Chordia, Roll, and Subrahmanyam (2000). It examines whether stock-level liquidity innovations co-move with leave-one-out market and sector liquidity indices after accounting for market-return and firm-volatility controls.
+
+The principal analysis is contained in the [master notebook](Chordia_All_Phases_Master.ipynb). The repository also provides the precomputed Parquet datasets used across the workflow, publication figures, and Excel versions of the reported tables. Large Parquet files are managed with Git LFS.
+
+## Research design
+
+The notebook organises the study into nine substantive phases:
+
+1. construction of a dynamic NSE equity universe and cleaning of daily observations;
+2. construction and quality control of liquidity measures;
+3. creation of leave-one-out market and sector liquidity indices and control variables;
+4. stock-level commonality regressions;
+5. cross-sectional analysis of the estimated commonality coefficients;
+6. temporal sub-period and market-state analysis;
+7. COVID-19 crisis interaction analysis;
+8. methodological robustness checks; and
+9. preparation of figures, summary statistics, and empirical benchmarks.
+
+The notebook identifies Amihud illiquidity, Corwin–Schultz high-low spreads, and Roll effective spreads as the principal daily liquidity measures. It also reports analyses involving FHT spreads and the Amivest liquidity ratio. Core regressions use leave-one-out liquidity indices to avoid mechanical self-inclusion in a stock’s market or sector benchmark.
+
+## Repository structure
+
+```text
+.
+├── Chordia_All_Phases_Master.ipynb
+├── data/                 # Parquet research datasets
+├── figures/              # Publication figures (PNG)
+└── results/tables/       # Reported results tables (XLSX)
+```
+
+## Master notebook
+
+[`Chordia_All_Phases_Master.ipynb`](Chordia_All_Phases_Master.ipynb) is the central research artifact. It documents the theoretical motivation, data treatment, liquidity-proxy construction, econometric specifications, sub-period comparisons, COVID-19 interaction tests, robustness analyses, and production of the reported figures and tables. It is intended to be run sequentially and uses the repository’s precomputed Parquet artifacts when available.
+
+## Data files
+
+All datasets below are stored in `data/` as Parquet files. They are versioned through Git LFS; clone the repository with Git LFS installed to retrieve the full datasets.
+
+| File | Description |
+|---|---|
+| [`annual_stock_betas_phase5.parquet`](data/annual_stock_betas_phase5.parquet) | Annual stock-level commonality-beta dataset used in the Phase 5 cross-sectional analysis. |
+| [`combined_market_data.parquet`](data/combined_market_data.parquet) | Combined market-level data artifact used by the empirical workflow. |
+| [`crisis_stock_betas_phase7.parquet`](data/crisis_stock_betas_phase7.parquet) | Stock-level beta estimates for the Phase 7 COVID-19 crisis analysis. |
+| [`monthly_liquidity_panel.parquet`](data/monthly_liquidity_panel.parquet) | Monthly liquidity-panel dataset. |
+| [`panel_clean.parquet`](data/panel_clean.parquet) | Cleaned panel dataset produced during the initial data-preparation stage. |
+| [`panel_with_indices.parquet`](data/panel_with_indices.parquet) | Panel dataset augmented with market and sector liquidity-index variables. |
+| [`panel_with_liquidity.parquet`](data/panel_with_liquidity.parquet) | Panel dataset augmented with constructed liquidity measures. |
+| [`portfolio_betas_phase8.parquet`](data/portfolio_betas_phase8.parquet) | Portfolio-level beta estimates used in the Phase 8 robustness analysis. |
+| [`robustness_stock_betas_phase8.parquet`](data/robustness_stock_betas_phase8.parquet) | Stock-level beta estimates generated for Phase 8 robustness checks. |
+| [`rolling_betas_252d_phase6.parquet`](data/rolling_betas_252d_phase6.parquet) | Rolling 252-trading-day commonality-beta estimates used in Phase 6. |
+| [`stock_betas_phase4.parquet`](data/stock_betas_phase4.parquet) | Stock-level results from the Phase 4 core commonality regressions. |
+| [`stock_cross_sectional_phase5.parquet`](data/stock_cross_sectional_phase5.parquet) | Stock-level cross-sectional dataset used in the Phase 5 determinant analysis. |
+| [`subperiod_stock_betas_phase6.parquet`](data/subperiod_stock_betas_phase6.parquet) | Stock-level beta estimates for the Phase 6 temporal sub-period comparison. |
+| [`weekly_liquidity_panel_phase8.parquet`](data/weekly_liquidity_panel_phase8.parquet) | Weekly liquidity panel used for the Phase 8 temporal-aggregation robustness check. |
+
+## Figures
+
+The `figures/` directory contains the five publication figures generated by the notebook.
+
+| Figure | Description |
+|---|---|
+| [Figure 1 — Amihud time series](figures/figure1_amihud_timeseries.png) | Ten-year time series of market-wide liquidity, centred on Amihud illiquidity and the associated macro-stress episodes. |
+| [Figure 2 — market-beta distribution](figures/figure2_market_betas_distribution.png) | Cross-sectional comparison of commonality betas across market-capitalisation quintiles. |
+| [Figure 3 — rolling beta time series](figures/figure3_rolling_betas_timeseries.png) | Evolution of rolling 252-day commonality beta estimates over 2016–2024. |
+| [Figure 4 — quintile boxplots](figures/figure4_quintile_boxplots.png) | Distributional comparison of commonality estimates across size quintiles. |
+| [Figure 5 — COVID event zoom](figures/figure5_covid_event_zoom.png) | Focused view of the COVID-19 stress episode and liquidity-spread decomposition. |
+
+## Results tables
+
+The `results/tables/` directory contains Excel workbooks, each with a `Results` worksheet. The tables are grouped below by empirical purpose.
+
+### Table 1: summary statistics
+
+| File | Contents |
+|---|---|
+| [`table1_summary_statistics.xlsx`](results/tables/table1_summary_statistics.xlsx) | Consolidated descriptive statistics for the reported liquidity measures and innovations. |
+| [`table1_panelA_full_sample.xlsx`](results/tables/table1_panelA_full_sample.xlsx) | Full-sample descriptive-statistics panel. |
+| [`table1_panelB_size_strata.xlsx`](results/tables/table1_panelB_size_strata.xlsx) | Descriptive-statistics panel stratified by firm-size group. |
+
+### Table 2: core commonality estimates
+
+| File | Contents |
+|---|---|
+| [`table2_core_commonality.xlsx`](results/tables/table2_core_commonality.xlsx) | Consolidated core commonality-in-liquidity results. |
+| [`table2_panelA_market_model.xlsx`](results/tables/table2_panelA_market_model.xlsx) | Equal-weighted market-model estimates for the principal liquidity measures. |
+| [`table2_panelB_sector_model.xlsx`](results/tables/table2_panelB_sector_model.xlsx) | Market-plus-sector model estimates. |
+| [`table2_size_breakdown.xlsx`](results/tables/table2_size_breakdown.xlsx) | Commonality estimates by size stratum. |
+| [`table2_size_quintiles.xlsx`](results/tables/table2_size_quintiles.xlsx) | Commonality estimates across market-capitalisation quintiles. |
+| [`table2_vw_robustness.xlsx`](results/tables/table2_vw_robustness.xlsx) | Value-weighted-index robustness estimates. |
+
+### Table 3: cross-sectional determinants
+
+| File | Contents |
+|---|---|
+| [`table3_cross_sectional_determinants.xlsx`](results/tables/table3_cross_sectional_determinants.xlsx) | Consolidated cross-sectional determinant results. |
+| [`table3_panelA_ols.xlsx`](results/tables/table3_panelA_ols.xlsx) | Ordinary least squares estimates with HC3 inference. |
+| [`table3_panelB_wls.xlsx`](results/tables/table3_panelB_wls.xlsx) | Precision-weighted least squares estimates. |
+| [`table3_panelC_fama_macbeth.xlsx`](results/tables/table3_panelC_fama_macbeth.xlsx) | Annual Fama–MacBeth estimates with Newey–West inference. |
+| [`table3_size_pairwise_tests.xlsx`](results/tables/table3_size_pairwise_tests.xlsx) | Pairwise statistical comparisons across size groups. |
+| [`table3_quintile_pairwise_tests.xlsx`](results/tables/table3_quintile_pairwise_tests.xlsx) | Pairwise statistical comparisons across market-capitalisation quintiles. |
+| [`table3_robustness_model2.xlsx`](results/tables/table3_robustness_model2.xlsx) | Cross-sectional robustness results based on the market-plus-sector specification. |
+| [`table3_robustness_vw.xlsx`](results/tables/table3_robustness_vw.xlsx) | Cross-sectional robustness results based on value-weighted market indices. |
+
+### Table 4: temporal sub-periods and market-state determinants
+
+| File | Contents |
+|---|---|
+| [`table4_subperiod_comparison.xlsx`](results/tables/table4_subperiod_comparison.xlsx) | Consolidated temporal sub-period comparison. |
+| [`table4_panelA_subperiod_means.xlsx`](results/tables/table4_panelA_subperiod_means.xlsx) | Mean commonality estimates by sub-period. |
+| [`table4_panelB_paired_tests.xlsx`](results/tables/table4_panelB_paired_tests.xlsx) | Paired tests comparing sub-period estimates. |
+| [`table4_panelC_size_strata.xlsx`](results/tables/table4_panelC_size_strata.xlsx) | Sub-period comparison by size stratum. |
+| [`table4_panelD_market_state_determinants.xlsx`](results/tables/table4_panelD_market_state_determinants.xlsx) | Market-state determinant estimates. |
+| [`table4_market_state_determinants.xlsx`](results/tables/table4_market_state_determinants.xlsx) | Market-state determinant results in standalone form. |
+
+### Table 5: COVID-19 crisis interaction analysis
+
+| File | Contents |
+|---|---|
+| [`table5_covid_crisis_interaction.xlsx`](results/tables/table5_covid_crisis_interaction.xlsx) | Consolidated COVID-19 crisis-interaction analysis for February–April 2020. |
+| [`table5_panelA_stock_distribution.xlsx`](results/tables/table5_panelA_stock_distribution.xlsx) | Distribution of stock-level crisis-interaction estimates. |
+| [`table5_panelB_pooled_panel.xlsx`](results/tables/table5_panelB_pooled_panel.xlsx) | Pooled-panel crisis-interaction estimates. |
+| [`table5_panelC_size_strata.xlsx`](results/tables/table5_panelC_size_strata.xlsx) | Crisis-interaction analysis by size stratum. |
+| [`table5_panelD_crash_rebound_split.xlsx`](results/tables/table5_panelD_crash_rebound_split.xlsx) | Separate crash and rebound estimates within the crisis episode. |
+| [`table5_panelE_restricted_baseline_window.xlsx`](results/tables/table5_panelE_restricted_baseline_window.xlsx) | Crisis results using a restricted baseline window. |
+| [`table5_restricted_baseline_window.xlsx`](results/tables/table5_restricted_baseline_window.xlsx) | Standalone restricted-baseline-window results. |
+
+### Table 6: robustness checks
+
+| File | Contents |
+|---|---|
+| [`table6_robustness_checks.xlsx`](results/tables/table6_robustness_checks.xlsx) | Consolidated robustness-check results. |
+| [`table6_panelA_value_weighted.xlsx`](results/tables/table6_panelA_value_weighted.xlsx) | Value-weighted market and sector-index analysis. |
+| [`table6_panelB_weekly_spread.xlsx`](results/tables/table6_panelB_weekly_spread.xlsx) | Weekly temporal-aggregation robustness analysis. |
+| [`table6_panelC_volatility_controls.xlsx`](results/tables/table6_panelC_volatility_controls.xlsx) | Sensitivity to alternative individual-firm volatility controls. |
+| [`table6_panelD_subsamples_portfolios.xlsx`](results/tables/table6_panelD_subsamples_portfolios.xlsx) | Subsample, portfolio, and alternative-proxy robustness analysis. |
+
+## Reproducibility notes
+
+The repository intentionally contains the notebook, derived datasets, figures, and reported tables required to inspect the study’s empirical outputs. The data artifacts are precomputed and are stored in Parquet format; the reported tables are supplied as Excel workbooks for review and reuse. No files outside the repository are required to understand this inventory.
